@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case MESSAGE_READ:
                         String arduinoMsg = msg.obj.toString(); // Read message from Arduino
-                        textView.setText(arduinoMsg);
+                        textView.setText(textView.getText()+arduinoMsg);
                         break;
                 }
             }
@@ -220,16 +220,16 @@ public class MainActivity extends AppCompatActivity {
                     Read from the InputStream from Arduino until termination character is reached.
                     Then send the whole String message to GUI Handler.
                      */
-                    buffer[bytes] = (byte) mmInStream.read();
+                    //buffer[bytes] = (byte) mmInStream.read();
                     String readMessage;
-                    if (buffer[bytes] == '\n'){
-                        readMessage = new String(buffer,0,bytes);
-                        Log.e("Arduino Message",readMessage);
+                    //if (buffer[bytes] == '\n'){
+                        readMessage = String.valueOf(mmInStream.read());
+                        Log.e("Arduino Message", readMessage);
                         handler.obtainMessage(MESSAGE_READ,readMessage).sendToTarget();
                         bytes = 0;
-                    } else {
-                        bytes++;
-                    }
+                    //} else {
+                        //bytes++;
+                    //}
                 } catch (IOException e) {
                     e.printStackTrace();
                     break;
